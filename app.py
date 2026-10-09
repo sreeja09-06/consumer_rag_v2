@@ -146,7 +146,20 @@ def get_retrieval_query(conversation_history):
 
 
 # ---- Streamlit UI ----
-st.set_page_config(page_title="Consumer Rights Assistant", page_icon="⚖️")
+st.set_page_config(page_title="Consumer Court Chatbot", page_icon="⚖️")
+
+# ---- Login gate: nothing below runs until the user signs in with Google ----
+if not st.user.is_logged_in:
+    st.title("⚖️ Consumer Court Chatbot")
+    st.write("Sign in with Google to ask questions and keep your chat history.")
+    st.button("Continue with Google", on_click=st.login)
+    st.stop()
+
+with st.sidebar:
+    st.write(f"Signed in as **{st.user.name}**")
+    st.caption(st.user.email)
+    st.button("Log out", on_click=st.logout)
+
 st.title("⚖️ AI Legal Assistant — Consumer Courts")
 st.caption("Describe your issue. I may ask a couple of follow-up questions before giving full guidance.")
 
